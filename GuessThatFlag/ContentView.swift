@@ -72,32 +72,47 @@ struct ContentView: View {
                             .font(.largeTitle.weight(.semibold))
                     }
 
-                    Button {
-                        flagTapped(num: 0)
-                    } label: {
-                        Image(countries[0])
-                            .renderingMode(.original)
-                            .clipShape(Capsule())
-                            .shadow(radius: 5)
-                    }
+                    
+                    // Loop that runs three times and creates a new Button element each time. Also, the value for "number" is 0 first time  through the loop, 1 second time, and 2 third time.
+                    ForEach(0..<3) { number in
+                        
+                        Button {
+                            flagTapped(num: number)
+                        } label: {
+                            Image(countries[number])
+                                .renderingMode(.original)
+                                .clipShape(Capsule())
+                                .shadow(radius: 5)
+                        }
 
-                    Button {
-                        flagTapped(num: 1)
-                    } label: {
-                        Image(countries[1])
-                            .renderingMode(.original)
-                            .clipShape(Capsule())
-                            .shadow(radius: 5)
                     }
                     
-                    Button {
-                        flagTapped(num: 2)
-                    } label: {
-                        Image(countries[2])
-                            .renderingMode(.original)
-                            .clipShape(Capsule())
-                            .shadow(radius: 5)
-                    }
+//                    Button {
+//                        flagTapped(num: 0)
+//                    } label: {
+//                        Image(countries[0])
+//                            .renderingMode(.original)
+//                            .clipShape(Capsule())
+//                            .shadow(radius: 5)
+//                    }
+//
+//                    Button {
+//                        flagTapped(num: 1)
+//                    } label: {
+//                        Image(countries[1])
+//                            .renderingMode(.original)
+//                            .clipShape(Capsule())
+//                            .shadow(radius: 5)
+//                    }
+//
+//                    Button {
+//                        flagTapped(num: 2)
+//                    } label: {
+//                        Image(countries[2])
+//                            .renderingMode(.original)
+//                            .clipShape(Capsule())
+//                            .shadow(radius: 5)
+//                    }
 
                 }
                 .frame(maxWidth: .infinity)
