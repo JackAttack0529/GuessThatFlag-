@@ -27,9 +27,9 @@ struct ContentView: View {
     // Creates a random number that is used to determine which flag name to display and which is the correct flag to select
     @State var correctAnswer = Int.random(in: 0...2)
     
-    //
-    @State var scoreTitle = ""
+    // State variables used to keep track of user's score, display user's score, and determine if the alert is displayed
     @State var currentScore = 0
+    @State var scoreTitle = ""
     @State var showingAlert = false
     
     // Function that shuffles/randomizes the order of the flags in the countries. Also, creates a new flag to guess.
@@ -38,14 +38,20 @@ struct ContentView: View {
         correctAnswer = Int.random(in: 0...2)
     }
     
-    //
+    // Function that accepts an argument for the "num" parameter. Argument is based off of user's guess (See ForEach loop below). Also, function determines if user's guess is correct or wrong and adjusts user's score accordingly.
     func flagTapped(num: Int){
         if num == correctAnswer {
             scoreTitle = "Correct"
+            currentScore += 1
         } else {
             scoreTitle = "Wrong"
-        }
             
+            if currentScore > 0 {
+                currentScore -= 1
+            }
+        }
+        
+        // Causes the alert to display
         showingAlert = true
     }
 
@@ -79,12 +85,13 @@ struct ContentView: View {
                         Button {
                             flagTapped(num: number)
                         } label: {
+                            
+                            // Displays a flag using a String/name from the "countries" array
                             Image(countries[number])
                                 .renderingMode(.original)
                                 .clipShape(Capsule())
                                 .shadow(radius: 5)
                         }
-
                     }
                     
 //                    Button {
@@ -122,7 +129,8 @@ struct ContentView: View {
 
                 Spacer()
 
-                Text("DISPLAY SCORE HERE")
+                // Displays the current score to the user
+                Text("Score: " + String(currentScore))
                     .foregroundColor(.white)
                     .font(.title.bold())
 
@@ -130,10 +138,15 @@ struct ContentView: View {
             }
             .padding()
         }
+        // Alert letting the user know if their guess was correct. Also, letting the user know their current score
+        // The value of the "showingAlert" state variable determines if the alert is displayed (True for yes and False for no)
+        // NOTE: When the "Continue" button is clicked the alert is dismissed (AKA The value of showingAlert is changed to false)
         .alert(scoreTitle, isPresented: $showingAlert) {
+            
+            // The "askQuestion" function runs when the "Continue" button on the alert is clicked
             Button("Continue", action: askQuestion)
         } message: {
-            Text("You Guessed")
+            Text("Your score is " + String(currentScore))
         }
         
     }
